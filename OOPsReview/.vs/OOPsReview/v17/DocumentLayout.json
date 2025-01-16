@@ -1,0 +1,70 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\mcimo\\Work\\NAIT\\1242\\1517\\A05\\Workbook\\OOPsReview\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A3D99431-66CB-4450-B206-8C059B5ED09F}|..\\..\\..\\..\\..\\..\\..\\OneDrive - NAIT\\Course Files\\1242\\CPSC1517\\Source\\OOPS Review\\Day 3\\UnitTestingForOOPs\\UnitTestingForOOPs.csproj|c:\\users\\mcimo\\onedrive - nait\\course files\\1242\\cpsc1517\\source\\oops review\\day 3\\unittestingforoops\\employment_should.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C45C0FB9-54E2-470C-99BD-6F62F7537B3E}|OOPsReview\\OOPsReview.csproj|c:\\users\\mcimo\\work\\nait\\1242\\1517\\a05\\workbook\\oopsreview\\oopsreview\\utilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C45C0FB9-54E2-470C-99BD-6F62F7537B3E}|OOPsReview\\OOPsReview.csproj|solutionrelative:oopsreview\\utilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C45C0FB9-54E2-470C-99BD-6F62F7537B3E}|OOPsReview\\OOPsReview.csproj|c:\\users\\mcimo\\work\\nait\\1242\\1517\\a05\\workbook\\oopsreview\\oopsreview\\employment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C45C0FB9-54E2-470C-99BD-6F62F7537B3E}|OOPsReview\\OOPsReview.csproj|solutionrelative:oopsreview\\employment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Employment_Should.cs",
+              "DocumentMoniker": "C:\\Users\\mcimo\\OneDrive - NAIT\\Course Files\\1242\\CPSC1517\\Source\\OOPS Review\\Day 3\\UnitTestingForOOPs\\Employment_Should.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\OneDrive - NAIT\\Course Files\\1242\\CPSC1517\\Source\\OOPS Review\\Day 3\\UnitTestingForOOPs\\Employment_Should.cs",
+              "ToolTip": "C:\\Users\\mcimo\\OneDrive - NAIT\\Course Files\\1242\\CPSC1517\\Source\\OOPS Review\\Day 3\\UnitTestingForOOPs\\Employment_Should.cs",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\OneDrive - NAIT\\Course Files\\1242\\CPSC1517\\Source\\OOPS Review\\Day 3\\UnitTestingForOOPs\\Employment_Should.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-15T18:19:00.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Utilities.cs",
+              "DocumentMoniker": "C:\\Users\\mcimo\\Work\\NAIT\\1242\\1517\\A05\\Workbook\\OOPsReview\\OOPsReview\\Utilities.cs",
+              "RelativeDocumentMoniker": "OOPsReview\\Utilities.cs",
+              "ToolTip": "C:\\Users\\mcimo\\Work\\NAIT\\1242\\1517\\A05\\Workbook\\OOPsReview\\OOPsReview\\Utilities.cs",
+              "RelativeToolTip": "OOPsReview\\Utilities.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-15T17:51:24.963Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Employment.cs",
+              "DocumentMoniker": "C:\\Users\\mcimo\\Work\\NAIT\\1242\\1517\\A05\\Workbook\\OOPsReview\\OOPsReview\\Employment.cs",
+              "RelativeDocumentMoniker": "OOPsReview\\Employment.cs",
+              "ToolTip": "C:\\Users\\mcimo\\Work\\NAIT\\1242\\1517\\A05\\Workbook\\OOPsReview\\OOPsReview\\Employment.cs",
+              "RelativeToolTip": "OOPsReview\\Employment.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-15T16:57:56.459Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
