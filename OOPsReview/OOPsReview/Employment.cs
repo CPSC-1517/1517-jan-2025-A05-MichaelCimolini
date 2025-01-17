@@ -9,7 +9,7 @@
         #region Attributes
 
         //Employment job title.
-        private String _Title;
+        private String _Title = "default";
 
         //Years in this Employment role.
         private double _Years;
@@ -74,7 +74,7 @@
         public Employment()
         {
             //Title can not be null or whitespace.
-            Title = "Unknown";
+            Title = "unknown";
 
             //Years defaults to 0, therefore we don't need to define it here.
             Level = SupervisoryLevel.Entry;
