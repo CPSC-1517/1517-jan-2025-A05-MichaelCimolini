@@ -9,7 +9,7 @@
         #region Attributes
 
         //Employment job title.
-        private String _Title = "default";
+        private String _Title;
 
         //Years in this Employment role.
         private double _Years;
@@ -41,7 +41,9 @@
         {
             get { return _Years; }
             set 
-            { if (value < 0)
+            { 
+                //Change to Utilities.IsPositiveOrZero
+                if (!Utilities.IsPositive(value))
                 {
                     throw new ArgumentException($"Year value {value} is invalid. Must be non-negative.");
                 }
@@ -77,7 +79,7 @@
             Title = "unknown";
 
             //Years defaults to 0, therefore we don't need to define it here.
-            Level = SupervisoryLevel.Entry;
+            Level = SupervisoryLevel.TeamMember;
             StartDate = DateTime.Today;
         }
 
@@ -86,21 +88,18 @@
             Title = title;
             Level = level;
 
-            if (startDate >= DateTime.Today.AddDays(1))
+            if (CheckDate(startDate))
             {
-                throw new ArgumentException($"The start date {startDate} is in the future.");
+                StartDate = startDate;
             }
 
-            StartDate = startDate;
-
-            if (years > 0.0)
+            if (years != 0.0 || startDate == DateTime.Today)
             {
                 Years = years;
             }
             else
             {
-                TimeSpan span = DateTime.Now - StartDate;
-                Years = Math.Round((span.Days / 365.25), 1); // 365.25 is the number of days in a year accounting for leap years.
+                CalculateAndSetYears(startDate);
             }
         }
         #endregion
@@ -124,7 +123,7 @@
         /// <returns>A string in CSV format.</returns>
         public override string ToString()
         {
-            return $"{Title},{Level},{StartDate.ToString("MMM,dd,yyyy")},{Years}";
+            return $"{Title},{Level},{StartDate.ToString("MMM. dd yyyy")},{Years}";
         }
 
         /// <summary>
@@ -133,14 +132,37 @@
         /// <param name="startDate">The DateTime to set StartDate to and validate.</param>
         public void CorrectStartDate(DateTime startDate)
         {
-            if (startDate >= DateTime.Today.AddDays(1))
+            if (CheckDate(startDate))
             {
-                throw new ArgumentException($"The start date {startDate} is in the future.");
+                StartDate = startDate;
             }
 
-            StartDate = startDate;
+            CalculateAndSetYears(startDate);
+        }
 
-            TimeSpan span = DateTime.Now - StartDate;
+        /// <summary>
+        /// Checks to make sure our date is not in the future.
+        /// </summary>
+        /// <param name="value">The DateTime to check.</param>
+        /// <returns>true if not in the future.</returns>
+        /// <exception cref="ArgumentException">Throws an Argument Exception if the provided date is in the future.</exception>
+        private static bool CheckDate(DateTime value)
+        {
+            if (value >= DateTime.Today.AddDays(1))
+            {
+                throw new ArgumentException($"The start date {value} is in the future.");
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Calculates years in position give the provided DateTime.
+        /// </summary>
+        /// <param name="startDate">The DateTime representing the start date for this position.</param>
+        private void CalculateAndSetYears(DateTime startDate)
+        {
+            TimeSpan span = DateTime.Now - startDate;
             Years = Math.Round((span.Days / 365.25), 1); // 365.25 is the number of days in a year accounting for leap years.
         }
         #endregion
