@@ -1,0 +1,60 @@
+﻿@page "/basic-events"
+<PageTitle>Basic Events</PageTitle>
+
+<!--
+This line indicates that the page should be rendered in interactive mode.
+-->
+@rendermode InteractiveServer
+
+<h1>Basic Button Events</h1>
+
+<p>Learning about buttons and events!</p>
+
+<style>
+	blockquote	{
+	background-color: lime;
+	}
+</style>
+
+<blockquote>
+	This page will demonstrate the basics of button events. It will use an &lt;input&gt; control to ask for some user input. It will use a &lt;button&gt; control to process the input. It will demonstrate basic use of C# code to do the processing.
+</blockquote>
+
+<p>@WelcomeMsg</p>
+
+<label for="inputcontrol">Enter an H for heads or T for tails.</label>
+<input type="text" id="inputcontrol" placeholder="eg: H" @bind="InputValue"/>
+
+<button type="submit" @onclick="Reset">Clear</button>
+
+@code {
+	/// <summary>
+	/// We can write C# in our HTML
+	/// We can write comments styled appropriately for HTML or C#
+	/// Or we can use Blazor comments @**@
+	/// </summary>
+
+	@*
+	his is a blazor comment
+	*@
+	private string WelcomeMsg;
+	private string InputValue;
+
+	protected override void OnInitialized()
+	{
+		WelcomeMsg = "OnInitialized Method";
+
+		base.OnInitialized();
+	}
+
+	private void Reset(){
+		WelcomeMsg = "Welcome Traveler!";
+	}
+
+	/// <summary>
+	/// This will be a heads and tails guessing game we build in our browser.
+	/// </summary>
+	private void Game() {
+		
+	}
+}
