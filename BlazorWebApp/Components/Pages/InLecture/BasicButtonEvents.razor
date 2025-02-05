@@ -10,22 +10,18 @@ This line indicates that the page should be rendered in interactive mode.
 
 <p>Learning about buttons and events!</p>
 
-<style>
-	blockquote	{
-	background-color: lime;
-	}
-</style>
-
 <blockquote>
 	This page will demonstrate the basics of button events. It will use an &lt;input&gt; control to ask for some user input. It will use a &lt;button&gt; control to process the input. It will demonstrate basic use of C# code to do the processing.
 </blockquote>
 
 <p>@WelcomeMsg</p>
 
+<button type="submit" @onclick="Reset">Clear</button>
+
 <label for="inputcontrol">Enter an H for heads or T for tails.</label>
 <input type="text" id="inputcontrol" placeholder="eg: H" @bind="InputValue"/>
+<button type="submit" @onclick="PlayGame" class="btn btn-outline-primary">Guess</button>
 
-<button type="submit" @onclick="Reset">Clear</button>
 
 @code {
 	/// <summary>
@@ -49,12 +45,57 @@ This line indicates that the page should be rendered in interactive mode.
 
 	private void Reset(){
 		WelcomeMsg = "Welcome Traveler!";
+		InputValue = "";
 	}
 
 	/// <summary>
 	/// This will be a heads and tails guessing game we build in our browser.
 	/// </summary>
-	private void Game() {
-		
+	private void PlayGame()
+	{
+		Random rnd = new Random();
+
+		WelcomeMsg = "";
+
+		int flip = rnd.Next(0, 2);
+		string guess = InputValue.ToUpper().Trim();
+
+		switch (flip)
+		{
+			case 0: {
+					if (guess == "H")
+					{
+						WelcomeMsg = "You guessed correctly!";
+					}
+					else if (guess == "T")
+					{
+						WelcomeMsg = "You guessed wrong!";
+					}
+					else
+					{
+						WelcomeMsg = $"{guess} was not a valid guess. Please enter H or T.";
+					}
+					break; 
+			}
+
+			case 1:
+				{
+					if (guess == "T")
+					{
+						WelcomeMsg = "You guessed correctly!";
+					}
+					else if (guess == "H")
+					{
+						WelcomeMsg = "You guessed wrong!";
+					}
+					else
+					{
+						WelcomeMsg = $"{guess} was not a valid guess. Please enter H or T.";
+					}
+					break;
+				}
+
+			default: WelcomeMsg = "Error"; break;
+		}
 	}
 }

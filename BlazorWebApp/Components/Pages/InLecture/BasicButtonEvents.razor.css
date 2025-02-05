@@ -1,0 +1,11 @@
+﻿blockquote {
+    background-color: lime;
+}
+
+button,
+input,
+label{
+    display: block;
+
+    margin-bottom: 20px;
+}
