@@ -19,9 +19,12 @@ This line indicates that the page should be rendered in interactive mode.
 <button type="submit" @onclick="Reset">Clear</button>
 
 <label for="inputcontrol">Enter an H for heads or T for tails.</label>
-<input type="text" id="inputcontrol" placeholder="eg: H" @bind="InputValue"/>
+<input type="text" id="inputcontrol" placeholder="eg: H"
+@bind="InputValue"
+@onkeypress="ButtonPressed" />
 <button type="submit" @onclick="PlayGame" class="btn btn-outline-primary">Guess</button>
 
+<ControlsListAndSlider></ControlsListAndSlider>
 
 @code {
 	/// <summary>
@@ -76,7 +79,7 @@ This line indicates that the page should be rendered in interactive mode.
 						WelcomeMsg = $"{guess} was not a valid guess. Please enter H or T.";
 					}
 					break; 
-			}
+				}
 
 			case 1:
 				{
@@ -96,6 +99,18 @@ This line indicates that the page should be rendered in interactive mode.
 				}
 
 			default: WelcomeMsg = "Error"; break;
+		}
+	}
+
+
+	/// <summary>
+	/// Extra method that trigers 
+	/// </summary>
+	/// <param name="e"></param>
+	private void ButtonPressed(KeyboardEventArgs e)
+	{
+		if (e.Key == "Enter"){
+			PlayGame();
 		}
 	}
 }
