@@ -1,6 +1,10 @@
 ﻿@page "/dataentry"
+<PageTitle>Data Entry</PageTitle>
+@rendermode InteractiveServer
 
 @using OOPsReview
+
+
 
 <section>
 	<h2>DataEntry</h2>
@@ -115,7 +119,7 @@
 			<div class="col-md-2">
 				<button @onclick="Submit">Submit</button>
 
-				<button @onclick="Clear">Clear</button>
+				<button type="submit" @onclick="Clear">Clear</button>
 			</div>
 		</div>
 	</div>
@@ -143,13 +147,46 @@
 		base.OnInitialized();
 	}
 
-	private void Submit(){
+	private void Submit()
+	{
+		//Clear our any old messages
+		FeedbackMsg = String.Empty;
+		ErrorMessages.Clear();
 
+		if(String.IsNullOrEmpty(EmploymentTitle))
+		{
+			ErrorMessages.Add("Title", "Title is Required");
+		}
+
+		if(EmploymentYears < 0)
+		{
+			ErrorMessages.Add("Years", "Years cannot be negative.");
+		}
+
+		if(EmploymentStart >= DateTime.Today.AddDays(1))
+		{
+			ErrorMessages.Add("Date", "Starte Date cannot be in the future.");
+		}
+
+		if(ErrorMessages.Count == 0)
+		{
+			FeedbackMsg = $"Success:{EmploymentTitle} {EmploymentYears} {EmploymentStart} {EmploymentLevel}";
+		}
 	}
 
+	/// <summary>
+	/// Clears all of our form inputs and message boxes.
+	/// </summary>
+	//TODO: figure out why this is broken.
 	private void Clear()
 	{
+		FeedbackMsg = String.Empty;
+		ErrorMessages.Clear();
 
+		EmploymentTitle = String.Empty;
+		EmploymentYears = 0.0;
+		EmploymentStart = DateTime.Today;
+		EmploymentLevel = SupervisoryLevel.Entry;
 	}
 
 }
