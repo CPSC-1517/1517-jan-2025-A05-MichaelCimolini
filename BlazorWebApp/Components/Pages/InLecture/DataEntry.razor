@@ -48,12 +48,90 @@
 	}
 </section>
 
+@*
+	Sets up our form for Employment data
+*@
+<fieldset>
+	<legend>Employment Data</legend> @*Gives us a form friendly header.*@
+
+	<div class="row">
+		<div class="col-md-2">
+			<label for="title">Position Title</label>
+		</div>
+		<div class="col-md-2">
+			<input type="text" id="title" placeholder="Enter Position"
+			@bind="EmploymentTitle"/>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2">
+			<label for="years">Years in Position</label>
+		</div>
+		@*
+			Step sets the increments for the up/down arrows.
+		*@
+		<div class="col-md-2">
+			<input type="number" id="years" step="0.1"
+			@bind="EmploymentYears" />
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2">
+			<label for="start">Position Start Date</label>
+		</div>
+		<div class="col-md-2">
+			<input type="date" id="start" placeholder="DateTime.Today" @bind="EmploymentStart" />
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2">
+			<label for="level">Supervisory Level</label>
+		</div>
+		<div class="col-md-2">
+			<select id="level" @bind="EmploymentLevel">
+				@* I could manually set this up:
+				<option value="Entry">Entry</option>
+				.
+				.
+				.
+
+				or...
+			*@
+
+				<!--
+				GetValues returns a list of values as an array.
+				typeof gets the "defenition" of SupervisoryLevel.
+				-->
+				@foreach (var item in Enum.GetValues(typeof(SupervisoryLevel))){
+					<option value="@item">@item</option>
+				}
+			</select>
+		</div>
+
+		<div class="row">
+			<div class="col-md-2">
+				<button @onclick="Submit">Submit</button>
+
+				<button @onclick="Clear">Clear</button>
+			</div>
+		</div>
+	</div>
+</fieldset>
+
 @code {
-	string FeedbackMsg = String.Empty;
+	private string FeedbackMsg = String.Empty;
 
-	Dictionary<string, string> ErrorMessages = new(); //shorthand for new Dictionary<string, string>();
+	private Dictionary<string, string> ErrorMessages = new(); //shorthand for new Dictionary<string, string>();
 
-	Employment Job = new Employment();
+	//Employment Fields
+	private string EmploymentTitle = String.Empty;
+	private double EmploymentYears = 0.0;
+	private SupervisoryLevel EmploymentLevel = SupervisoryLevel.Entry;
+	private DateTime EmploymentStart = DateTime.Today;
+
 
 	protected override void OnInitialized()
 	{
@@ -63,6 +141,15 @@
 		//ErrorMessages.Add("2", "Second Error.");
 
 		base.OnInitialized();
+	}
+
+	private void Submit(){
+
+	}
+
+	private void Clear()
+	{
+
 	}
 
 }
