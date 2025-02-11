@@ -1,5 +1,7 @@
 ﻿@page "/dataentry"
 
+@using OOPsReview
+
 <section>
 	<h2>DataEntry</h2>
 	<p>Employment data Collection</p>
@@ -44,7 +46,6 @@
 			</ul>
 		</div>
 	}
-
 </section>
 
 @code {
@@ -52,9 +53,11 @@
 
 	Dictionary<string, string> ErrorMessages = new(); //shorthand for new Dictionary<string, string>();
 
+	Employment Job = new Employment();
+
 	protected override void OnInitialized()
 	{
-		FeedbackMsg = "Successful Feedback!";
+		//FeedbackMsg = "Successful Feedback!";
 
 		//ErrorMessages.Add("1", "First Error.");
 		//ErrorMessages.Add("2", "Second Error.");
