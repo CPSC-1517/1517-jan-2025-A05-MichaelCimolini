@@ -1,0 +1,65 @@
+﻿@page "/dataentry"
+
+<section>
+	<h2>DataEntry</h2>
+	<p>Employment data Collection</p>
+
+	<div>
+		<div>
+			<blockquote>
+				<p>
+					This component will demonstrate how your page can handle validation of data input,
+					showing validation messages when you have a number of controls for data entry. This
+					component will validate the locate controls and create any validation messages for
+					invalid data. The messages can be collected using various techniques such as: List or
+					Dictionary.
+				</p>
+				<p>
+					This page will input data for an instance of the Employment class. This demo will
+					use the Employment class from the OOPs review. The SupervisoryLevel enum
+					class will also be brought into this project. One could have included the entire
+					class library as part of this solution instead of bringing in individual classes.
+				</p>
+			</blockquote>
+		</div>
+	</div>
+
+	@if (!String.IsNullOrEmpty(FeedbackMsg)){
+		<div class="alert alert-success">
+			<p>@FeedbackMsg</p>
+		</div>
+	}
+
+	@*
+		Only display error messages if there are messages to display.
+	*@
+	@if (ErrorMessages.Count > 0){
+		<div class="alert alert-danger">
+			<ul>
+				@foreach (var error in ErrorMessages){
+					<li>
+						@error.Value
+					</li>
+				}
+			</ul>
+		</div>
+	}
+
+</section>
+
+@code {
+	string FeedbackMsg = String.Empty;
+
+	Dictionary<string, string> ErrorMessages = new(); //shorthand for new Dictionary<string, string>();
+
+	protected override void OnInitialized()
+	{
+		FeedbackMsg = "Successful Feedback!";
+
+		//ErrorMessages.Add("1", "First Error.");
+		//ErrorMessages.Add("2", "Second Error.");
+
+		base.OnInitialized();
+	}
+
+}
