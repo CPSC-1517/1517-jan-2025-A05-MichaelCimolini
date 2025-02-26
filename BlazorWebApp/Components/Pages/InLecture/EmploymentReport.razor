@@ -1,0 +1,73 @@
+﻿@page "/report"
+<PageTitle>Employment Report</PageTitle>
+
+<!-- Only need this if we have interactive elements on our page.-->
+@rendermode InteractiveServer
+
+@using OOPsReview;
+
+<h2>EmploymentReport</h2>
+<p>Using a tabular report presentation aka Using Tables!</p>
+
+<!--Error Message and Feedback Area-->
+@if (FeedbackMessage.Length > 0)
+{
+	<div class="alert alert-info">
+		<p>@FeedbackMessage</p>
+	</div>	
+}
+
+@if (ErrorMessages.Count > 0)
+{
+	<div class="alert alert-danger">
+		<p>Please fix your errors:</p>
+		<ul>
+			@foreach (var error in ErrorMessages)
+			{
+				<li>@error</li>
+			}
+		</ul>
+	</div>
+}
+
+@if (Employments == null)
+{
+	<p>CSV File does not contain any Employment data.</p>
+}
+else if (Employments.Count == 0)
+{
+	<p>No employment records found.</p>
+}
+else
+{
+	<div class="row">
+		<!--overflow-scroll means that our table data will have a scroll bar instead of being displayed all at once.-->
+		<div class="offset-4 col-md-4 overflow-scroll">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Job Title</th>
+						<th>Start Date</th>
+						<th>Level</th>
+						<th>Years</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var employment in Employments)
+					{
+						<tr>
+							<td>@employment.Title</td>
+							<td>@employment.StartDate.ToShortDateString()</td>
+							<td>@employment.Level</td>
+							<td>@employment.Years</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+}
+
+@code {
+
+}

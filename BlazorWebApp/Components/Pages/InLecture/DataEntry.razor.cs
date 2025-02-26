@@ -29,6 +29,10 @@ namespace BlazorWebApp.Components.Pages.InLecture
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
 
+        //NavigationManager allows us to navigate more easily through our application.
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
+
         protected override void OnInitialized()
         {
             //FeedbackMsg = "Successful Feedback!";
@@ -126,6 +130,18 @@ namespace BlazorWebApp.Components.Pages.InLecture
                 EmploymentYears = 0.0;
                 EmploymentStart = DateTime.Today;
                 EmploymentLevel = SupervisoryLevel.Entry;
+            }
+        }
+
+        private async void GoToReport()
+        {
+            //Holds our dialog message
+            string message = "Clearing will lose all unsaved data. Are you sure you wish to continue?";
+
+            //Creates a popup prompt to check if the user really wants to clear the form. Clears if they do.
+            if (await JSRuntime.InvokeAsync<bool>("confirm", message))
+            {
+                NavigationManager.NavigateTo("report");
             }
         }
 

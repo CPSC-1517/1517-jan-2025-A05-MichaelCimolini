@@ -165,6 +165,26 @@
             TimeSpan span = DateTime.Now - startDate;
             Years = Math.Round((span.Days / 365.25), 1); // 365.25 is the number of days in a year accounting for leap years.
         }
+
+        /// <summary>
+        /// Parses CSV data created by the ToString method into a new instance of Employment.
+        /// </summary>
+        /// <param name="line">The CSV line to parse</param>
+        /// <returns>A new instance of Employment</returns>
+        public static Employment Parse(string line)
+        {
+            //splits our CSV file into multiple values based on where the ,s are
+            string[] values = line.Split(',');
+
+            SupervisoryLevel level;
+
+            Enum.TryParse(values[1], out level);
+
+            DateTime startDate = DateTime.Parse(values[2]);
+            double years = Double.Parse(values[3]);
+
+            return new Employment(values[0], level, startDate, years);
+        }
         #endregion
     }
 }
