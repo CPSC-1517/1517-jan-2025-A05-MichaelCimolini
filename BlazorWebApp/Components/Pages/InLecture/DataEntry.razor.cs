@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using OOPsReview;
 
 namespace BlazorWebApp.Components.Pages.InLecture
@@ -24,6 +25,9 @@ namespace BlazorWebApp.Components.Pages.InLecture
         [Inject]
         public IWebHostEnvironment webHostEnvironment { get; set; }
 
+        //JSRuntime allows us to call JS functions directly from our C# code.
+        [Inject]
+        public IJSRuntime JSRuntime { get; set; }
 
         protected override void OnInitialized()
         {
@@ -105,15 +109,24 @@ namespace BlazorWebApp.Components.Pages.InLecture
         /// Clears all of our form inputs and message boxes.
         /// </summary>
         //TODO: figure out why this is broken.
-        private void Clear()
+        private async void Clear()
         {
             FeedbackMsg = String.Empty;
-            ErrorMessages.Clear();
 
-            EmploymentTitle = String.Empty;
-            EmploymentYears = 0.0;
-            EmploymentStart = DateTime.Today;
-            EmploymentLevel = SupervisoryLevel.Entry;
+            //Holds our dialog message
+            object[] message = new object[]
+                {"Clearing will lose all unsaved data. Are you sure you wish to continue?"};
+
+            //Creates a popup prompt to check if the user really wants to clear the form. Clears if they do.
+            if (await JSRuntime.InvokeAsync<bool>("confirm", message))
+            {
+                ErrorMessages.Clear();
+
+                EmploymentTitle = String.Empty;
+                EmploymentYears = 0.0;
+                EmploymentStart = DateTime.Today;
+                EmploymentLevel = SupervisoryLevel.Entry;
+            }
         }
 
         //Loops through our exception until it finds the root cause.
