@@ -1,16 +1,92 @@
 ﻿@page "/FileIO"
 
-<h3>FileIODemo</h3>
+@rendermode InteractiveServer
+
+<h3>File IO</h3>
+
+<p>@Message</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Age</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(var person in Persons)
+		{
+			<tr>
+				<td>@person.Name</td>
+				<td>@person.Age</td>
+			</tr>
+		}
+	</tbody>
+</table>
 
 <fieldset>
 	<label for="name">Name</label>
-	<input type="text" id="name"/>
+	<input type="text" id="name" @bind=Name/>
 
 	<label for="age">Age</label>
-	<input type="number" id="age" />
+	<input type="number" id="age" @bind=Age/>
 
+	<button @onclick="Submit">Submit</button>
+	<button @onclick="UpdateTable">Update</button>
 </fieldset>
 
 @code {
 
+	List<Person> Persons = new List<Person>();
+	string Message = "Welcome!";
+	string Name = String.Empty;
+	int Age = 0;
+
+	string FilePath = @"./Data/People.csv";
+
+	public void Submit(){
+		//There should be bullet proofing and validation here in a real application.
+		Message = "Success!";
+		Person person = new Person(Name, Age);
+
+		System.IO.File.AppendAllText(FilePath, person.ToString());
+	}
+
+	public void UpdateTable(){
+		foreach (string line in Update())
+		{
+			Persons.Add(Person.Parse(line));
+		}
+	}
+
+	public List<string> Update(){
+		return System.IO.File.ReadAllLines(FilePath).ToList<string>();
+	}
+
+
+	class Person{
+		public string Name { get; set; }
+		public int Age { get; set; }
+
+		public Person(string name, int age){
+			Name = name;
+			Age = age;
+		}
+
+		public string ToString(){
+			return $"{Name},{Age}" + "\n";
+		}
+
+		public static Person Parse(string line){
+
+			if (!String.IsNullOrWhiteSpace(line))
+			{
+				List<string> values = line.Split(',').ToList();
+
+				return new Person(values[0], int.Parse(values[1]));
+			}
+
+			return new Person("Error", 404);
+		}
+	}
 }
