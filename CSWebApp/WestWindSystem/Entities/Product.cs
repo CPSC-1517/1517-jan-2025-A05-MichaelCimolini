@@ -15,19 +15,33 @@ namespace WestWindSystem.Entities;
 [Index("SupplierID", Name = "SuppliersProducts")]
 public partial class Product
 {
-    [Key]
+    /// <summary>
+    /// If your pkey (primary key) is not an IDENTITY Type, then we need to add annotation parameters.
+    /// 
+    /// DatabaseGeneratedOption.Identity - Default for int or similar keys
+    /// DatabaseGeneratedOption.Computed - Used for keys that are computed from other records
+    ///     ie: pkey is First,Last where First and Last are columns in your table.
+    /// DatabaseGeneratedOption.None - This is for non-computed, non-identity keys (string, date, etc)
+    /// </summary>
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ProductID { get; set; }
 
-    [Required]
-    [StringLength(40)]
+    /// <summary>
+    /// Can add ErrorMessages directly to our annotation 
+    /// </summary>
+    [Required(ErrorMessage = "Product Name is required. Can not be blank.")]
+    [StringLength(40,ErrorMessage = "Product Name is limited to 40 characters.")]
     public string ProductName { get; set; }
 
     public int SupplierID { get; set; }
 
     public int CategoryID { get; set; }
 
+    /// <summary>
+    /// Can add additional validation
+    /// </summary>
     [Required]
-    [StringLength(20)]
+    [StringLength(20, MinimumLength = 2, ErrorMessage = "Quantity per unit must be 2 to 20 characters.")]
     public string QuantityPerUnit { get; set; }
 
     public short? MinimumOrderQuantity { get; set; }
@@ -39,10 +53,17 @@ public partial class Product
 
     public bool Discontinued { get; set; }
 
+    /// <summary>
+    /// ForeignKey is a Parent Key/Class if it is a singular type ie. Not a collection
+    /// </summary>
     [ForeignKey("CategoryID")]
     [InverseProperty("Products")]
     public virtual Category Category { get; set; }
 
+    /// <summary>
+    /// When we have a collection (ICollection) the class in <> has a child relationship to our current
+    /// class
+    /// </summary>
     [InverseProperty("Product")]
     public virtual ICollection<ManifestItem> ManifestItems { get; set; } = new List<ManifestItem>();
 

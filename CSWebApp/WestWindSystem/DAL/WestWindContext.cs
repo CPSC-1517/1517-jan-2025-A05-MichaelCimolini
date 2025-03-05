@@ -7,13 +7,21 @@ using WestWindSystem.Entities;
 
 namespace WestWindSystem.DAL;
 
-public partial class WestWindContext : DbContext
+/// <summary>
+/// Internal for security. This means that WestWindContext can only be accessed inside of WestWindSystems.
+/// Can not be accessed by WestWindApp directly.
+/// </summary>
+internal partial class WestWindContext : DbContext
 {
     public WestWindContext(DbContextOptions<WestWindContext> options)
         : base(options)
     {
     }
 
+    /// <summary>
+    /// virtual is a keyword that allows us to override a method/property/class/index/etc in a derived
+    /// class.
+    /// </summary>
     public virtual DbSet<Address> Addresses { get; set; }
 
     public virtual DbSet<BuildVersion> BuildVersions { get; set; }
@@ -46,6 +54,7 @@ public partial class WestWindContext : DbContext
 
     public virtual DbSet<Territory> Territories { get; set; }
 
+    //Do not touch
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("Latin1_General_CI_AS");
