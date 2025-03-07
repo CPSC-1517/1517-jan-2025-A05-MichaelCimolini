@@ -1,6 +1,16 @@
-using CSWebApp.Components;
+using WestWindApp.Components;
+
+using Microsoft.EntityFrameworkCore;
+using WestWindSystem;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//This configures our application to connect to our WestWind DB
+//TODO: Change Connection String as needed
+var connectionString = builder.Configuration.GetConnectionString("WWDB-Laptop");
+
+//This registers the DB with our extension methods and services
+builder.Services.WestWindExtensionsServices(options => options.UseSqlServer(connectionString));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
