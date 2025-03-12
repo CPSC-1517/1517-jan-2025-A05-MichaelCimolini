@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using WestWindSystem.DAL;
 using WestWindSystem.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace WestWindSystem.BLL
 {
@@ -33,15 +34,33 @@ namespace WestWindSystem.BLL
         {
             //Using IEnumerable (base base class of List)
             //Allows us to iterate through our records, but nothing else
+            
             //This prevents our DB from runnin an unnecessary query
-            IEnumerable<Shipment> records = _context.Shipments
-                                    .Where(shipment => shipment.ShippedDate.Year == year
-                                                    && shipment.ShippedDate.Month == month)
-                                    .OrderBy(shipment => shipment.ShippedDate);
+
+            //Version 1 - see V2 below
+            //IEnumerable<Shipment> records = _context.Shipments
+            //                        .Where(shipment => shipment.ShippedDate.Year == year
+            //                                        && shipment.ShippedDate.Month == month)
+            //                        .OrderBy(shipment => shipment.ShippedDate);
 
             //This is the same result as above, but requires 2 DB queries instead of 1.
             //IEnumerable<Shipment> records = _context.Shipments.Where(shipment => shipment.ShippedDate.Year == year && shipment.ShippedDate.Month == month);
-  
+
+            /*
+             * If we want to include data from another table, we have 2 options:
+             * 1) Bring in the second dataset and handle all of the reference updates with our lists.
+             * This is complex and a lot of code.
+             * 
+             * 2) We can use .Include() and have SQL do it for us.
+            */
+
+            //V2
+            IEnumerable<Shipment> records = _context.Shipments
+                        .Include(shipment => shipment.ShipViaNavigation)
+                        .Where(shipment => shipment.ShippedDate.Year == year
+                                        && shipment.ShippedDate.Month == month)
+                        .OrderBy(shipment => shipment.ShippedDate);
+
             return records.ToList();
         }
         #endregion
