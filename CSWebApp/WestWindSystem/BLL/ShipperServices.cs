@@ -40,23 +40,7 @@ namespace WestWindSystem.BLL
 
 
             //This will sort alphabetically A->Z
-            return records.OrderBy(record => record.ShipperDescription).ToList();
-        }
-
-
-        /// <summary>
-        /// Returns the Shipper with matching ID. Null if no Shipper found.
-        /// </summary>
-        /// <param name="id">The target ID.</param>
-        /// <returns>The matching Shipper or null.</returns>
-        public Shipper? GetShipperByID(int id)
-        {
-            Shipper? Shipper = null;
-
-            //FirstOrDefault can take a predicate to further refine our search.
-            Shipper = _context.Shippers.FirstOrDefault(x => x.ShipperID == id);
-
-            return Shipper;
+            return records.ToList();
         }
         #endregion
     }
