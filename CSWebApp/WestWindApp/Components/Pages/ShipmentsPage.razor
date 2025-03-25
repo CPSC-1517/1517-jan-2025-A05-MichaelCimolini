@@ -141,7 +141,9 @@
         {
             try
             {
-                ShipmentList = _ShipmentServices.GetShipmentsByYearAndMonth(Years, Months);
+                _TotalItems = _ShipmentServices.GetShipmentsCountByYearAndMonth(Years, Months);
+
+                ShipmentList = _ShipmentServices.GetShipmentsPageByYearAndMonth(Years, Months, _CurrentPageNum, ITEMSPERPAGE);
             }
             catch(Exception e)
             {
@@ -155,6 +157,8 @@
         feedBackMsg = String.Empty;
         errorMsgs.Clear();
         ShipmentList = null;
+
+        _CurrentPageNum = 1;
     }
 
     private int GetTotalPages()
@@ -164,6 +168,8 @@
 
     private void OnPageChanged(int newPageNum)
     {
+        _CurrentPageNum = newPageNum;
 
+        ShipmentList = _ShipmentServices.GetShipmentsPageByYearAndMonth(Years, Months, _CurrentPageNum, ITEMSPERPAGE);
     }
 }

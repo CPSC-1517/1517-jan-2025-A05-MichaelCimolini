@@ -63,6 +63,51 @@ namespace WestWindSystem.BLL
 
             return records.ToList();
         }
+
+        /// <summary>
+        /// Returns the count of records found.
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public int GetShipmentsCountByYearAndMonth(int year, int month)
+        {
+            IEnumerable<Shipment> records = _context.Shipments
+                        .Where(shipment => shipment.ShippedDate.Year == year
+                                        && shipment.ShippedDate.Month == month);
+
+            return records.Count();
+        }
+
+        public List<Shipment> GetShipmentsPageByYearAndMonth(int year, int month, int currentPage, int itemsPerPage)
+        {
+            IEnumerable<Shipment> records = _context.Shipments
+                        .Include(shipment => shipment.ShipViaNavigation)
+                        .Where(shipment => shipment.ShippedDate.Year == year
+                                        && shipment.ShippedDate.Month == month)
+                        .OrderBy(shipment => shipment.ShippedDate);
+
+            //Pages start at index 1, subtract 1 to get the 0 index for our DB
+            int recordsToSkip = itemsPerPage * (currentPage - 1);
+
+            return records.Skip(recordsToSkip).Take(itemsPerPage).ToList();
+
+            /*
+             * Does the same thing
+             * 
+             * int recordsToSkip = itemsPerPage * (currentPage - 1);
+             * 
+             * IEnumerable<Shipment> records = _context.Shipments
+                        .Include(shipment => shipment.ShipViaNavigation)
+                        .Where(shipment => shipment.ShippedDate.Year == year
+                                        && shipment.ShippedDate.Month == month)
+                        .OrderBy(shipment => shipment.ShippedDate)
+                        .Skip(recordsToSkip)
+                        .Take(itemsPerPage);
+
+              return records.ToList();
+             */
+        }
         #endregion
     }
 }
