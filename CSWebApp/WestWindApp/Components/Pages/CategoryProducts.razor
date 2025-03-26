@@ -164,7 +164,11 @@ drop down list of category names to select from
 
     private void FetchProducts()
     {
+        Clear();
+        
         //fetch the list of products depending of the category selection
+        if
+
         //if no category was selected display a message and clear old product display
 
     }
@@ -174,6 +178,13 @@ drop down list of category names to select from
         //this event will use the Navigate services of the web software
         //the Navigate services must be injected into the page
         //the location your are going to is referenced by the page's routing parameter
-        
+
+    }
+
+    private void Clear()
+    {
+        FeedbackMessage = String.Empty;
+        ErrorMsgs.Clear();
+        ProductList.Clear();
     }
 }
