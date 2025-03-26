@@ -34,15 +34,15 @@
 
     private int SelectedCategoryId;
 
-   
+
     [Inject]
     protected NavigationManager NavManager { get; set; }
 
     protected override void OnInitialized()
     {
-        Categories = _CategoryServices.Categories_Get();
-        Suppliers = _SupplierServices.Supplier_GetList();
-	    
+        Categories = _CategoryServices.GetAllCategories();
+        Suppliers = _SupplierServices.GetAllSuppliers();
+
         base.OnInitialized(); 
     }
 

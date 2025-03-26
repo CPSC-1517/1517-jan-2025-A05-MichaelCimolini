@@ -1,6 +1,8 @@
 ﻿@page "/categoryproducts"
 <PageTitle>Category Products</PageTitle>
+
 @rendermode InteractiveServer
+
 @using WestWindSystem.Entities;
 @using WestWindSystem.BLL;
 
@@ -83,6 +85,22 @@
                             <td>@Item.QuantityPerUnit</td>
                             <td> @Item.Supplier.CompanyName</td>
                             <td>@(Item.Discontinued ? "Yes" : " ")</td>
+                            <!--
+                                Ternary Operatior:
+                                ((Statement to assess true or false) ? True response : False response)
+
+                                ==
+
+                                if (Statement to assess true or false)
+                                {
+                                    True response
+                                }
+
+                                else
+                                {
+                                    False response
+                                }
+                            -->
                         </tr>
                     }
                 </tbody>
@@ -113,24 +131,24 @@
     //inject the CategoryService into the page
     //this will allow access to the methods in the CategoryService BLL class
     [Inject]
-    private CategoryServices _categoryServices { get; set; }
+    private CategoryServices _CategoryServices { get; set; }
 
     //inject the ProductService into the page
     [Inject]
-    private ProductServices _productServices { get; set; }
+    private ProductServices _ProductServices { get; set; }
 
     //inject the SupplyService into the page
     [Inject]
-    private SupplierServices _supplierServices { get; set; }
+    private SupplierServices _SupplierServices { get; set; }
 
     private int CategoryId { get; set; }
 
-    private List<Category> categoryList { get; set; }
-    private List<Product> productList { get; set; }
-    private List<Supplier> supplierList { get; set; }
+    private List<Category> CategoryList { get; set; }
+    private List<Product> ProductList { get; set; }
+    private List<Supplier> SupplierList { get; set; }
 
     [Inject]
-    private NavigationManager _navManager { get; set; }
+    private NavigationManager NavManager { get; set; }
 
     protected override void OnInitialized()
     {
