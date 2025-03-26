@@ -165,9 +165,17 @@ drop down list of category names to select from
     private void FetchProducts()
     {
         Clear();
-        
+
         //fetch the list of products depending of the category selection
-        if
+        if( CategoryId == 0)
+        {
+            FeedbackMessage = "Please select a category.";
+        }
+
+        else
+        {
+            ProductList = _ProductServices.GetProductByCategoryID(CategoryID);
+        }
 
         //if no category was selected display a message and clear old product display
 
