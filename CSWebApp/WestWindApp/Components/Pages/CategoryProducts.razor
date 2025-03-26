@@ -174,11 +174,14 @@ drop down list of category names to select from
 
         else
         {
-            ProductList = _ProductServices.GetProductByCategoryID(CategoryID);
+            ProductList = _ProductServices.GetProductByCategoryID(CategoryId);
         }
 
-        //if no category was selected display a message and clear old product display
-
+        /*Same as:
+         * CategoryID == 0 ? {FeedbackMessage = "Message"} :
+         *                   {ProductList = _ProductServices.GetPro.....};
+         *
+         */ 
     }
 
     private void GoToCRUD()
