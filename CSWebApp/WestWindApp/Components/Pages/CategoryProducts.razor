@@ -137,15 +137,10 @@ drop down list of category names to select from
     [Inject]
     private ProductServices _ProductServices { get; set; }
 
-    //inject the SupplyService into the page
-    [Inject]
-    private SupplierServices _SupplierServices { get; set; }
-
     private int CategoryId { get; set; }
 
     private List<Category> CategoryList { get; set; } = new();
     private List<Product> ProductList { get; set; } = new();
-    private List<Supplier> SupplierList { get; set; } = new();
 
     [Inject]
     private NavigationManager NavManager { get; set; }
@@ -154,9 +149,6 @@ drop down list of category names to select from
     {
         //retrieve the list of category via the CategoryServices in your BLL
         CategoryList = _CategoryServices.GetAllCategories();
-
-        //retrieve the list of supplier via the SupplierServices in your BLL
-        SupplierList = _SupplierServices.GetAllSuppliers();
 
         base.OnInitialized();
     }

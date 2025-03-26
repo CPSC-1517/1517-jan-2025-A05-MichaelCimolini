@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,7 @@ namespace WestWindSystem.BLL
         public List<Product> GetProductByCategoryID(int categoryID)
         {
             IEnumerable<Product> records = _context.Products
+                                            .Include(product => product.Supplier)
                                             .Where(product => product.CategoryID == categoryID)
                                             .OrderBy(product => product.ProductName);
 
