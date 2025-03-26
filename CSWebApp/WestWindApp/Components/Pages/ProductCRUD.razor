@@ -1,4 +1,4 @@
-﻿@page "/productcrud/{ProductID:int}"
+﻿@page "/productcrud/{ProductID:int?}"
 @using WestWindSystem.Entities
 @using WestWindSystem.BLL
 
@@ -36,7 +36,7 @@
 
     //Must match the value in our @page declaration
     [Parameter]
-    public int ProductID { get; set; }
+    public int? ProductID { get; set; }
 
     [Inject]
     protected NavigationManager NavManager { get; set; }
