@@ -70,6 +70,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>       </th>
                         <th>Product</th>
                         <th>Unit Size</th>
                         <th>Company Name</th>
@@ -80,10 +81,11 @@
                     @foreach(Product Item in ProductList)
                     {
                         <tr>
-
+                            <!--This adds a link to our itmes that will send the ProductID to our CRUD-->
+                            <td><a href="/productCRUD/@Item.ProductID">View</a></td>
                             <td>@Item.ProductName</td>
                             <td>@Item.QuantityPerUnit</td>
-                            <td> @Item.Supplier.CompanyName</td>
+                            <td>@Item.Supplier.CompanyName</td>
                             <td>@(Item.Discontinued ? "Yes" : " ")</td>
                             <!--
                             Ternary Operatior:
