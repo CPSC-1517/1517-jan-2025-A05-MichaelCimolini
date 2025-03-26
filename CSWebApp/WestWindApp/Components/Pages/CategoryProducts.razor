@@ -49,17 +49,17 @@
         one button will have a NavLink to the new page
         one button will call an event method on this page which
         will navigate to the new page
-
+        -->
 
         <button type="submit" class="btn btn-outline-secondary rounded-pill">
-        <NavLink href="productcrud">CRUD via Navlink</NavLink>
+            <NavLink href="productcrud">CRUD via Navlink</NavLink>
         </button>
 
         <button type="submit" class="btn btn-outline-secondary rounded-pill"
         @onclick="GoToCRUD">
-        CRUD via Event
+            CRUD via Event
         </button> 
-        -->
+
     </div>
 </div>
 
@@ -172,10 +172,10 @@ drop down list of category names to select from
         }
 
         /*Same as:
-         * CategoryID == 0 ? {FeedbackMessage = "Message"} :
+        * CategoryID == 0 ? {FeedbackMessage = "Message"} :
          *                   {ProductList = _ProductServices.GetPro.....};
-         *
-         */ 
+        *
+        */ 
     }
 
     private void GoToCRUD()
@@ -184,6 +184,9 @@ drop down list of category names to select from
         //the Navigate services must be injected into the page
         //the location your are going to is referenced by the page's routing parameter
 
+        NavManager.NavigateTo("productcrud");
+
+        //Could add our JS popup here if needed.
     }
 
     private void Clear()
