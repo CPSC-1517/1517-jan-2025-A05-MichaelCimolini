@@ -15,35 +15,35 @@
 }
 
 <!--EditForm Region-->
-
+<!--We use IDs instead of names for our label/inputs as this will compile to JS.-->
 <EditForm>
     <fieldset>
-        <label>Product ID</label>
-        <InputNumber/>
+        <label id="productID">Product ID</label>
+        <InputNumber id="productID"/>
 
-        <label>Name</label>
-        <InputText/>
+        <label id="name">Name</label>
+        <InputText id="name"/>
 
-        <lablel>Supplier</lablel>
-        <InputSelect>
-
-        </InputSelect>
-        <label>Category</label>
-        <InputSelect>
+        <label id="supplier">Supplier</label>
+        <InputSelect id="supplier">
 
         </InputSelect>
+        <label id="category">Category</label>
+        <InputSelect id="category">
 
-        <label>Qty / Unit</label>
-        <InputText/>
+        </InputSelect>
 
-        <label>Unit Price</label>
-        <InputNumber/>
+        <label id="qty">Qty / Unit</label>
+        <InputText id="qty"/>
 
-        <label>Min Order Qty</label>
-        <InputNumber/>
+        <label id="unitprice">Unit Price</label>
+        <InputNumber id="unitprice"/>
 
-        <label>Units on Order</label>
-        <InputNumber/>
+        <label id="minorder">Min Order Qty</label>
+        <InputNumber id="minorder"/>
+
+        <label id="units">Units on Order</label>
+        <InputNumber id="units"/>
     </fieldset>
 </EditForm>
 
