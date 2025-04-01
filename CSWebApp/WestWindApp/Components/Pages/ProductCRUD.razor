@@ -30,7 +30,11 @@
             <option value="0">...Select...</option>
             @foreach (Supplier Sup in Suppliers)
             {
-                <option value="Sup.CategoryID">@Sup.CompanyName</option>
+                <!--This sets our selected item to the item passed from our other page.-->
+                <option value="@Sup.SupplierID" 
+                        selected="@Sup.SupplierID == CurrentProduct.SupplierID">
+                        @Sup.CompanyName
+                </option>
             }
         </InputSelect>
         <label id="category">Category</label>
@@ -38,7 +42,10 @@
             <option value="0">...Select...</option>
             @foreach(Category Cat in Categories)
             {
-                <option value="Cat.CategoryID">@Cat.CategoryName</option>
+                <option value="@Cat.CategoryID"
+                        selected="@Cat.CategoryID == CurrentProduct.CategoryID">
+                        @Cat.CategoryName
+                </option>
             }
         </InputSelect>
 
