@@ -61,6 +61,24 @@
         <label id="units">Units on Order</label>
         <InputNumber id="units" @bind-Value="CurrentProduct.UnitsOnOrder"/>
     </fieldset>
+
+    <fieldset>
+		<button type="submit" @onclick="OnCreate">
+            Create
+        </button>
+        <button type="submit" @onclick="OnUpdate">
+            Update
+        </button>
+        <button type="submit" @onclick="OnDiscontinue">
+            Discontinue
+        </button>
+        <button type="submit" @onclick="Clear">
+            Clear
+        </button>
+        <button type="submit" @onclick="GoToSearch">
+            Search
+        </button>
+    </fieldset>
 </EditForm>
 
 <!--EditForm Region End-->
