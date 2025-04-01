@@ -19,31 +19,32 @@
 <EditForm>
     <fieldset>
         <label id="productID">Product ID</label>
-        <InputNumber id="productID"/>
+        <!--Readonly as our DB should be setting this.-->
+        <InputNumber id="productID" @bind-value="CurrentProduct.ProductID" readonly/>
 
         <label id="name">Name</label>
-        <InputText id="name"/>
+        <InputText id="name" @bind-Value="CurrentProduct.ProductName"/>
 
         <label id="supplier">Supplier</label>
-        <InputSelect id="supplier">
+        <InputSelect id="supplier" @bind-Value="CurrentProduct.SupplierID">
 
         </InputSelect>
         <label id="category">Category</label>
-        <InputSelect id="category">
+        <InputSelect id="category" @bind-Value="CurrentProduct.CategoryID">
 
         </InputSelect>
 
         <label id="qty">Qty / Unit</label>
-        <InputText id="qty"/>
+        <InputText id="qty" @bind-Value="CurrentProduct.QuantityPerUnit"/>
 
         <label id="unitprice">Unit Price</label>
-        <InputNumber id="unitprice"/>
+        <InputNumber id="unitprice" @bind-Value="CurrentProduct.UnitPrice"/>
 
         <label id="minorder">Min Order Qty</label>
-        <InputNumber id="minorder"/>
+        <InputNumber id="minorder" @bind-Value="CurrentProduct.MinimumOrderQuantity"/>
 
         <label id="units">Units on Order</label>
-        <InputNumber id="units"/>
+        <InputNumber id="units" @bind-Value="CurrentProduct.UnitsOnOrder"/>
     </fieldset>
 </EditForm>
 
@@ -62,6 +63,7 @@
     [Inject]
     private SupplierServices _SupplierServices { get; set; }
 
+    //We will be binding all of our Inputs to this instance of our Entity
     private Product CurrentProduct = new();
 
     private List<Category> Categories = new();
