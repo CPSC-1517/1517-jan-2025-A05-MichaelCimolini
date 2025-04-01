@@ -16,7 +16,7 @@
 
 <!--EditForm Region-->
 <!--We use IDs instead of names for our label/inputs as this will compile to JS.-->
-<EditForm>
+<EditForm EditContext="_EditContext">
     <fieldset>
         <label id="productID">Product ID</label>
         <!--Readonly as our DB should be setting this.-->
@@ -66,6 +66,9 @@
     //We will be binding all of our Inputs to this instance of our Entity
     private Product CurrentProduct = new();
 
+    //We can't initialize _EditContext here. We must initialize after the page is loaded.
+    private EditContext _EditContext;
+
     private List<Category> Categories = new();
     private List<Supplier> Suppliers = new();
 
@@ -82,6 +85,9 @@
     {
         Categories = _CategoryServices.GetAllCategories();
         Suppliers = _SupplierServices.GetAllSuppliers();
+
+        //Must be initialized here or in another method. Preferably here.
+        _EditContext = new EditContext(CurrentProduct);
 
         base.OnInitialized(); 
     }
