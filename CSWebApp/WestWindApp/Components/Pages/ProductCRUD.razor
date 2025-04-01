@@ -17,6 +17,9 @@
 <!--EditForm Region-->
 <!--We use IDs instead of names for our label/inputs as this will compile to JS.-->
 <EditForm EditContext="_EditContext">
+    <!--Allows our form to validate data using the Entity and get the error messages.-->
+    <DataAnnotationsValidator/>
+
     <!--Shows all of our validation errors.-->
     <ValidationSummary/>
 
@@ -27,6 +30,8 @@
 
         <label id="name">Name</label>
         <InputText id="name" @bind-Value="CurrentProduct.ProductName"/>
+        <!--I can add inline validation to the property above.-->
+        <ValidationMessage for="@(() => CurrentProduct.ProductName)"/>
 
         <label id="supplier">Supplier</label>
         <InputSelect id="supplier" @bind-Value="CurrentProduct.SupplierID">
