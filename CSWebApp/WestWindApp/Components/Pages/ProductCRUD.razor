@@ -27,11 +27,19 @@
 
         <label id="supplier">Supplier</label>
         <InputSelect id="supplier" @bind-Value="CurrentProduct.SupplierID">
-
+            <option value="0">...Select...</option>
+            @foreach (Supplier Sup in Suppliers)
+            {
+                <option value="Sup.CategoryID">@Sup.CompanyName</option>
+            }
         </InputSelect>
         <label id="category">Category</label>
         <InputSelect id="category" @bind-Value="CurrentProduct.CategoryID">
-
+            <option value="0">...Select...</option>
+            @foreach(Category Cat in Categories)
+            {
+                <option value="Cat.CategoryID">@Cat.CategoryName</option>
+            }
         </InputSelect>
 
         <label id="qty">Qty / Unit</label>
