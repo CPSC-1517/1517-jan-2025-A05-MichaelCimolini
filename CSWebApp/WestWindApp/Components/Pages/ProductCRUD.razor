@@ -17,6 +17,9 @@
 <!--EditForm Region-->
 <!--We use IDs instead of names for our label/inputs as this will compile to JS.-->
 <EditForm EditContext="_EditContext">
+    <!--Shows all of our validation errors.-->
+    <ValidationSummary/>
+
     <fieldset>
         <label id="productID">Product ID</label>
         <!--Readonly as our DB should be setting this.-->
@@ -32,8 +35,8 @@
             {
                 <!--This sets our selected item to the item passed from our other page.-->
                 <option value="@Sup.SupplierID" 
-                        selected="@(Sup.SupplierID == CurrentProduct.SupplierID)">
-                        @Sup.CompanyName
+                selected="@(Sup.SupplierID == CurrentProduct.SupplierID)">
+                    @Sup.CompanyName
                 </option>
             }
         </InputSelect>
@@ -43,8 +46,8 @@
             @foreach(Category Cat in Categories)
             {
                 <option value="@Cat.CategoryID"
-                        selected="@(Cat.CategoryID == CurrentProduct.CategoryID)">
-                        @Cat.CategoryName
+                selected="@(Cat.CategoryID == CurrentProduct.CategoryID)">
+                    @Cat.CategoryName
                 </option>
             }
         </InputSelect>
@@ -63,7 +66,7 @@
     </fieldset>
 
     <fieldset>
-		<button type="submit" @onclick="OnCreate">
+        <button type="submit" @onclick="OnCreate">
             Create
         </button>
         <button type="submit" @onclick="OnUpdate">
@@ -102,6 +105,8 @@
     //We can't initialize _EditContext here. We must initialize after the page is loaded.
     private EditContext _EditContext;
 
+    private ValidationMessageStore _ValidationMessageStore;
+
     private List<Category> Categories = new();
     private List<Supplier> Suppliers = new();
 
@@ -121,6 +126,9 @@
 
         //Must be initialized here or in another method. Preferably here.
         _EditContext = new EditContext(CurrentProduct);
+
+        //Shorthand constructor.
+        _ValidationMessageStore = new(_EditContext);
 
         base.OnInitialized(); 
     }
