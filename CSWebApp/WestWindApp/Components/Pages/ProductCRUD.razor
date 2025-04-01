@@ -62,6 +62,7 @@
 
         <label id="unitprice">Unit Price</label>
         <InputNumber id="unitprice" @bind-Value="CurrentProduct.UnitPrice"/>
+        <ValidationMessage for="@(() => CurrentProduct.UnitPrice)" />
 
         <label id="minorder">Min Order Qty</label>
         <InputNumber id="minorder" @bind-Value="CurrentProduct.MinimumOrderQuantity"/>
