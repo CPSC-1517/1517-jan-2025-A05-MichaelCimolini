@@ -142,6 +142,12 @@
         //Shorthand constructor.
         _ValidationMessageStore = new(_EditContext);
 
+        if(ProductID.HasValue)
+        {
+            //We need .Value as ProductID is nullable.
+            CurrentProduct = _ProductServices.GetProductByID(ProductID.Value);
+        }
+
         base.OnInitialized(); 
     }
 
@@ -193,8 +199,7 @@
                 else
                 {
                     //We should get this product ID from our DataBase
-                    int newProductID = 1337;
-                    //newProductID = _ProductServices.AddProduct(CurrentProduct);
+                    int newProductID = _ProductServices.AddProduct(CurrentProduct);
 
                     FeedbackMessage = $"Product {CurrentProduct.ProductName} w/ ID: {newProductID} has been saved.";
                 }
