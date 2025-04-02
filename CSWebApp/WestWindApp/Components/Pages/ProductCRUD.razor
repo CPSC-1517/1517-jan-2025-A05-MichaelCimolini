@@ -2,6 +2,7 @@
 @using WestWindSystem.Entities
 @using WestWindSystem.BLL
 
+@rendermode InteractiveServer
 
 <PageTitle>Product CRUD</PageTitle>
 
@@ -45,6 +46,8 @@
                 </option>
             }
         </InputSelect>
+        <ValidationMessage for="@(() => CurrentProduct.SupplierID)" />
+
         <label id="category">Category</label>
         <InputSelect id="category" @bind-Value="CurrentProduct.CategoryID">
             <option value="0">...Select...</option>
@@ -81,10 +84,10 @@
         <button type="submit" @onclick="OnDiscontinue">
             Discontinue
         </button>
-        <button type="submit" @onclick="Clear">
+        <button type="button" @onclick="OnClear">
             Clear
         </button>
-        <button type="submit" @onclick="GoToSearch">
+        <button type="button" @onclick="GoToSearch">
             Search
         </button>
     </fieldset>
@@ -125,6 +128,9 @@
     [Inject]
     protected NavigationManager NavManager { get; set; }
 
+    [Inject]
+    protected IJSRuntime JSRuntime { get; set; }
+
     protected override void OnInitialized()
     {
         Categories = _CategoryServices.GetAllCategories();
@@ -142,13 +148,75 @@
     private void Clear()
     {
         FeedbackMessage = String.Empty;
+        _ValidationMessageStore.Clear();
     }
 
     #region CRUD methods
 
+    /// <summary>
+    /// Generates a new entry in our DB representing the product that we have created in our Form.
+    /// </summary>
     private void OnCreate()
     {
+        Clear();
 
+        try
+        {
+            //First validate there are no errors in our form.
+            if (_EditContext.Validate())
+            {
+                //Need check that our Category is not 0. CategoryID is a foreign key, so 0 is an invalid number.
+                if(CurrentProduct.CategoryID == 0)
+                {
+                    //Add error message to ValidationMessageStore
+                    //Field allows us to access any of the Inputs in our EditForm through the @bind-value
+                    //nameof gets our Variable Name, not the value
+                    _ValidationMessageStore.Add(_EditContext.Field(nameof(CurrentProduct.CategoryID)), "You must select a Category");
+                }
+
+                //Same as above for SupplierID
+                if(CurrentProduct.SupplierID == 0)
+                {
+                    _ValidationMessageStore.Add(_EditContext.Field(nameof(CurrentProduct.SupplierID)), "You must select a Supplier");
+                }
+
+                //We could add any other validation we need here
+
+                //Check if there were any new errors
+                //.Any checks if there's anything in it
+                if(_EditContext.GetValidationMessages().Any())
+                {
+                    //Notify our Form that there are errors and tell it to update our error messages
+                    _EditContext.NotifyValidationStateChanged();
+                }
+                //If nothing's broken we can submit the data
+                else
+                {
+                    //We should get this product ID from our DataBase
+                    int newProductID = 1337;
+                    //newProductID = _ProductServices.AddProduct(CurrentProduct);
+
+                    FeedbackMessage = $"Product {CurrentProduct.ProductName} w/ ID: {newProductID} has been saved.";
+                }
+            }
+        }
+
+        catch (ArgumentNullException ex)
+        {
+            //usually if an error occurs only ONE message will be executed
+            //You could setup a special error message string to display on your page
+            //that is NOT the validationMessageStore and is NOT the feedBackMessage
+            //You could style this special error message string as an alert alert-danger
+            FeedbackMessage = $"Missing Data: {GetInnerException(ex).Message}";
+        }
+        catch (ArgumentException ex)
+        {
+            FeedbackMessage = $"Data Issue: {GetInnerException(ex).Message}";
+        }
+        catch (Exception ex)
+        {
+            FeedbackMessage = $"System Error: {GetInnerException(ex).Message}";
+        }
     }
 
     private void OnUpdate()
@@ -163,9 +231,27 @@
 
     #endregion
 
-    private void GoToSearch()
+    private async Task OnClear()
     {
+        if(await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to clear the form?"))
+        {
+            Clear();
 
+            CurrentProduct = new();
+
+            //Update our EditContext
+            _EditContext = new EditContext(CurrentProduct);
+        }
+    }
+
+    private async Task GoToSearch()
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to leave this page?"))
+        {
+            Clear();
+
+            NavManager.NavigateTo("categoryproducts");
+        }
     }
 
     private Exception GetInnerException(Exception ex)

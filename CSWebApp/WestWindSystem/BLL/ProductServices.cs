@@ -25,7 +25,7 @@ namespace WestWindSystem.BLL
 
         #region Services
 
-        public List<Product> GetProductByCategoryID(int categoryID)
+        public List<Product> GetProductsByCategoryID(int categoryID)
         {
             IEnumerable<Product> records = _context.Products
                                             .Include(product => product.Supplier)
@@ -35,6 +35,20 @@ namespace WestWindSystem.BLL
             return records.ToList();
         }
 
+        public Product? GetProductByID(int ID)
+        {
+            Product? record = _context.Products
+                                            .Include(product => product.Supplier)
+                                            .Where(product => product.ProductID == ID)
+                                            .FirstOrDefault();
+
+            return record;
+        }
+
+        public int AddProduct(Product product)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
