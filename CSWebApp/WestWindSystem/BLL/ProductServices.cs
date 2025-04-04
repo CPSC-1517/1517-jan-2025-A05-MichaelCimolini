@@ -153,13 +153,6 @@ namespace WestWindSystem.BLL
                 throw new ArgumentNullException("Product Information Required!");
             }
 
-            //Check if the ID already exists. Can't update a product that doesn't exist.
-
-            if (!_context.Products.Any(prod => prod.ProductID == product.ProductID))
-            {
-                throw new ArgumentException("Product with this ID doesn't exists.");
-            }
-
             //Check our business logic, could be different logic than create
             Product productToDelete = null;
 
@@ -176,6 +169,36 @@ namespace WestWindSystem.BLL
 
             //This handles checking all of our fields and only modifiying the ones that changed.
             EntityEntry<Product> updating = _context.Entry(productToDelete);
+
+            updating.State = EntityState.Modified;
+
+            //returns the number of records updated
+            return _context.SaveChanges();
+        }
+
+        public int ActivateProduct(Product product)
+        {
+            if (product is null)
+            {
+                throw new ArgumentNullException("Product Information Required!");
+            }
+
+            //Check our business logic, could be different logic than create
+            Product productToActivate = null;
+
+            //Test our business logic
+            productToActivate = _context.Products.FirstOrDefault(prod => prod.ProductID == product.ProductID);
+
+            if (productToActivate == null)
+            {
+                //Generally you want to include more info than this
+                throw new ArgumentException($"Product can not be found!");
+            }
+
+            productToActivate.Discontinued = false;
+
+            //This handles checking all of our fields and only modifiying the ones that changed.
+            EntityEntry<Product> updating = _context.Entry(productToActivate);
 
             updating.State = EntityState.Modified;
 
