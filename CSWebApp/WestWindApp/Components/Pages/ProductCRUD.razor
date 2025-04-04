@@ -145,17 +145,17 @@
         Categories = _CategoryServices.GetAllCategories();
         Suppliers = _SupplierServices.GetAllSuppliers();
 
+        if (ProductID.HasValue)
+        {
+            //We need .Value as ProductID is nullable.
+            CurrentProduct = _ProductServices.GetProductByID(ProductID.Value);
+        }
+
         //Must be initialized here or in another method. Preferably here.
         _EditContext = new EditContext(CurrentProduct);
 
         //Shorthand constructor.
         _ValidationMessageStore = new(_EditContext);
-
-        if(ProductID.HasValue)
-        {
-            //We need .Value as ProductID is nullable.
-            CurrentProduct = _ProductServices.GetProductByID(ProductID.Value);
-        }
 
         base.OnInitialized(); 
     }
