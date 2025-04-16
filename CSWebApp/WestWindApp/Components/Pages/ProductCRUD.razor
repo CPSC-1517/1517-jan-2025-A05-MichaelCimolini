@@ -27,7 +27,7 @@
     <fieldset>
         <label id="productID">Product ID</label>
         <!--Readonly as our DB should be setting this.-->
-        <InputNumber id="productID" @bind-value="CurrentProduct.ProductID" readonly/>
+        <InputNumber id="productID" @bind-Value="CurrentProduct.ProductID" readonly/>
 
         <label id="name">Name</label>
         <InputText id="name" @bind-Value="CurrentProduct.ProductName"/>
@@ -81,9 +81,18 @@
         <button type="submit" @onclick="OnUpdate">
             Update
         </button>
-        <button type="submit" @onclick="OnDiscontinue">
-            Discontinue
-        </button>
+        @if (CurrentProduct.Discontinued)
+        {
+            <button type="submit" @onclick="OnActivated">
+                Activate
+            </button>
+        }
+        else
+        {
+            <button type="submit" @onclick="OnDiscontinue">
+                Discontinue
+            </button>
+        }
         <button type="button" @onclick="OnClear">
             Clear
         </button>
@@ -136,17 +145,17 @@
         Categories = _CategoryServices.GetAllCategories();
         Suppliers = _SupplierServices.GetAllSuppliers();
 
+        if (ProductID.HasValue)
+        {
+            //We need .Value as ProductID is nullable.
+            CurrentProduct = _ProductServices.GetProductByID(ProductID.Value);
+        }
+
         //Must be initialized here or in another method. Preferably here.
         _EditContext = new EditContext(CurrentProduct);
 
         //Shorthand constructor.
         _ValidationMessageStore = new(_EditContext);
-
-        if(ProductID.HasValue)
-        {
-            //We need .Value as ProductID is nullable.
-            CurrentProduct = _ProductServices.GetProductByID(ProductID.Value);
-        }
 
         base.OnInitialized(); 
     }
@@ -294,7 +303,106 @@
 
     private void OnDiscontinue()
     {
+        Clear();
 
+        try
+        {
+            //First validate there are no errors in our form.
+            if (_EditContext.Validate())
+            {
+                //Need check that our Category is not 0. CategoryID is a foreign key, so 0 is an invalid number.
+                if (CurrentProduct.CategoryID == 0)
+                {
+                    //Add error message to ValidationMessageStore
+                    //Field allows us to access any of the Inputs in our EditForm through the @bind-value
+                    //nameof gets our Variable Name, not the value
+                    _ValidationMessageStore.Add(_EditContext.Field(nameof(CurrentProduct.CategoryID)), "You must select a Category");
+                }
+
+                //Same as above for SupplierID
+                if (CurrentProduct.SupplierID == 0)
+                {
+                    _ValidationMessageStore.Add(_EditContext.Field(nameof(CurrentProduct.SupplierID)), "You must select a Supplier");
+                }
+
+                //We could add any other validation we need here
+
+                //Check if there were any new errors
+                //.Any checks if there's anything in it
+                if (_EditContext.GetValidationMessages().Any())
+                {
+                    //Notify our Form that there are errors and tell it to update our error messages
+                    _EditContext.NotifyValidationStateChanged();
+                }
+                //If nothing's broken we can submit the data
+                else
+                {
+                    int affectedRows = _ProductServices.DiscontinueProduct(CurrentProduct);
+
+                    //Check that it worked
+                    if (affectedRows == 0)
+                    {
+                        FeedbackMessage = $"Product {CurrentProduct.ProductName} w/ ID: {CurrentProduct.ProductID} has not been Discontinued.";
+                    }
+                    else
+                    {
+                        FeedbackMessage = $"Product {CurrentProduct.ProductName} w/ ID: {CurrentProduct.ProductID} has been Discontinued.";
+                    }
+                }
+            }
+        }
+        catch (ArgumentNullException ex)
+        {
+            //usually if an error occurs only ONE message will be executed
+            //You could setup a special error message string to display on your page
+            //that is NOT the validationMessageStore and is NOT the feedBackMessage
+            //You could style this special error message string as an alert alert-danger
+            FeedbackMessage = $"Missing Data: {GetInnerException(ex).Message}";
+        }
+        catch (ArgumentException ex)
+        {
+            FeedbackMessage = $"Data Issue: {GetInnerException(ex).Message}";
+        }
+        catch (Exception ex)
+        {
+            FeedbackMessage = $"System Error: {GetInnerException(ex).Message}";
+        }
+    }
+
+    private void OnActivated()
+    {
+        Clear();
+
+        try
+        {
+            int affectedRows = _ProductServices.ActivateProduct(CurrentProduct);
+
+            //Check that it worked
+            if (affectedRows == 0)
+            {
+                FeedbackMessage = $"Product {CurrentProduct.ProductName} w/ ID: {CurrentProduct.ProductID} has not been Activated.";
+            }
+            else
+            {
+                FeedbackMessage = $"Product {CurrentProduct.ProductName} w/ ID: {CurrentProduct.ProductID} has been Activated.";
+            }
+        }
+        catch (ArgumentNullException ex)
+        {
+            //usually if an error occurs only ONE message will be executed
+            //You could setup a special error message string to display on your page
+            //that is NOT the validationMessageStore and is NOT the feedBackMessage
+            //You could style this special error message string as an alert alert-danger
+            FeedbackMessage = $"Missing Data: {GetInnerException(ex).Message}";
+        }
+        catch (ArgumentException ex)
+        {
+            FeedbackMessage = $"Data Issue: {GetInnerException(ex).Message}";
+        }
+        catch (Exception ex)
+        {
+            FeedbackMessage = $"System Error: {GetInnerException(ex).Message}";
+        }
     }
 
     #endregion
